@@ -151,7 +151,3 @@ export function scoreCalls(calls: UserCall[]) {
     edgeTotal: edgePitches.length,
   };
 }
-
-export function shareCopy(correct: number, total: number, rank: Rank) {
-  return `I went ${correct}/${total} in the slot at T-Mobile Park. ${rank.title}. ABS still saw the ones I missed. #MakeTheCall`;
-}

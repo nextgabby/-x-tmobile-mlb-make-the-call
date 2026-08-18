@@ -1,4 +1,4 @@
-import { rankFor, shareCopy, type UserCall } from "./pitches";
+import { rankFor, type UserCall } from "./pitches";
 
 const MAGENTA = "#E20074";
 const NAVY = "#0C2C56";
@@ -101,33 +101,6 @@ export function downloadFile(file: File) {
   a.download = file.name;
   a.click();
   URL.revokeObjectURL(url);
-}
-
-export async function shareResults(opts: {
-  correct: number;
-  total: number;
-  edgeCorrect: number;
-  edgeTotal: number;
-  calls: UserCall[];
-}) {
-  const rank = rankFor(opts.correct, opts.total);
-  const text = shareCopy(opts.correct, opts.total, rank);
-  const canvas = drawShareCard(opts);
-  const file = await canvasToPngFile(
-    canvas,
-    `make-the-call-${opts.correct}-of-${opts.total}.png`,
-  );
-
-  const payload = { files: [file], title: "Make The Call", text };
-  if (navigator.canShare?.({ files: [file] })) {
-    await navigator.share(payload);
-    return "shared";
-  }
-
-  downloadFile(file);
-  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-  window.open(intent, "_blank", "noopener,noreferrer");
-  return "downloaded";
 }
 
 export async function downloadResults(opts: {

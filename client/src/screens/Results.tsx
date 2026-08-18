@@ -6,7 +6,7 @@ import {
   scoreCalls,
   type UserCall,
 } from "../game/pitches";
-import { downloadResults, shareResults } from "../game/shareCard";
+import { downloadResults } from "../game/shareCard";
 
 export function Results({
   calls,
@@ -17,26 +17,13 @@ export function Results({
 }) {
   const score = scoreCalls(calls);
   const rank = rankFor(score.correct, score.total);
-  const [busy, setBusy] = useState<"share" | "download" | null>(null);
+  const [busy, setBusy] = useState(false);
   const [note, setNote] = useState<string | null>(null);
 
   const payload = { ...score, calls };
 
-  const handleShare = async () => {
-    setBusy("share");
-    setNote(null);
-    try {
-      const result = await shareResults(payload);
-      setNote(result === "shared" ? "Shared." : "Graphic saved. Draft opened on X.");
-    } catch {
-      setNote("Share canceled.");
-    } finally {
-      setBusy(null);
-    }
-  };
-
   const handleDownload = async () => {
-    setBusy("download");
+    setBusy(true);
     setNote(null);
     try {
       await downloadResults(payload);
@@ -44,7 +31,7 @@ export function Results({
     } catch {
       setNote("Could not save the graphic.");
     } finally {
-      setBusy(null);
+      setBusy(false);
     }
   };
 
@@ -98,19 +85,11 @@ export function Results({
       <div className="relative z-10 flex flex-col gap-2.5 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
           type="button"
-          onClick={handleShare}
-          disabled={busy !== null}
+          onClick={handleDownload}
+          disabled={busy}
           className="cta-pulse w-full rounded-full bg-tm-magenta py-4 font-display text-2xl tracking-wide text-white disabled:opacity-70"
         >
-          {busy === "share" ? "Sharing…" : "Share on X"}
-        </button>
-        <button
-          type="button"
-          onClick={handleDownload}
-          disabled={busy !== null}
-          className="w-full rounded-full border border-white/30 py-3 font-display text-xl tracking-wide text-white disabled:opacity-70"
-        >
-          {busy === "download" ? "Saving…" : "Download graphic"}
+          {busy ? "Saving…" : "Download graphic"}
         </button>
         <button
           type="button"

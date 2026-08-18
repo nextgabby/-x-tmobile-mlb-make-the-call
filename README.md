@@ -34,7 +34,7 @@ If the GitHub repo is `gw-demos`, set **Root Directory** to `x-tmobile-mlb-make-
 
 1. **The Slot** — landing at T-Mobile Park, umpire POV.
 2. **Five pitches** — incoming heat, a 1.3s Ball/Strike window, then the ABS reveal.
-3. **Your card** — accuracy + edge-pitch breakdown, download a 9:16 graphic, share on X.
+3. **Your card** — accuracy + edge-pitch breakdown, then download a 9:16 graphic.
 
 Pitch 1–2 are readable. Pitches 3–5 live on the black — that’s the ABS story. Ground truth lives in `client/src/game/pitches.ts` (`videoSrc` can be added later).
 # -x-tmobile-mlb-make-the-call
