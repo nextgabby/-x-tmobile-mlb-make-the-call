@@ -1,0 +1,187 @@
+import { rankFor, shareCopy, type UserCall } from "./pitches";
+
+const MAGENTA = "#E20074";
+const NAVY = "#0C2C56";
+const GREEN = "#005C5C";
+const WHITE = "#FFFFFF";
+const SILVER = "#C4CED4";
+
+export function drawShareCard(opts: {
+  correct: number;
+  total: number;
+  edgeCorrect: number;
+  edgeTotal: number;
+  calls: UserCall[];
+}): HTMLCanvasElement {
+  const w = 1080;
+  const h = 1920;
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return canvas;
+
+  const rank = rankFor(opts.correct, opts.total);
+
+  ctx.fillStyle = NAVY;
+  ctx.fillRect(0, 0, w, h);
+
+  ctx.fillStyle = MAGENTA;
+  ctx.fillRect(0, 0, w, 220);
+
+  ctx.fillStyle = WHITE;
+  ctx.font = "700 28px 'DM Sans', sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("MLB  ·  ABS", w / 2, 78);
+  ctx.font = "800 92px 'Bebas Neue', Impact, sans-serif";
+  ctx.fillText("POWERED BY T-MOBILE", w / 2, 168);
+
+  ctx.fillStyle = GREEN;
+  ctx.beginPath();
+  ctx.arc(w / 2, 380, 72, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = MAGENTA;
+  ctx.lineWidth = 8;
+  ctx.stroke();
+  ctx.fillStyle = WHITE;
+  ctx.font = "800 72px 'Bebas Neue', Impact, sans-serif";
+  ctx.fillText("S", w / 2, 406);
+
+  ctx.fillStyle = SILVER;
+  ctx.font = "700 28px 'DM Sans', sans-serif";
+  ctx.fillText("T-MOBILE PARK  ·  SEATTLE", w / 2, 500);
+
+  ctx.fillStyle = WHITE;
+  ctx.font = "800 120px 'Bebas Neue', Impact, sans-serif";
+  ctx.fillText("MAKE THE CALL", w / 2, 640);
+
+  ctx.fillStyle = MAGENTA;
+  ctx.font = "800 280px 'Bebas Neue', Impact, sans-serif";
+  ctx.fillText(`${opts.correct}/${opts.total}`, w / 2, 980);
+
+  ctx.fillStyle = WHITE;
+  ctx.font = "800 86px 'Bebas Neue', Impact, sans-serif";
+  ctx.fillText(rank.title.toUpperCase(), w / 2, 1100);
+
+  ctx.fillStyle = SILVER;
+  ctx.font = "600 32px 'DM Sans', sans-serif";
+  wrapText(ctx, rank.body, w / 2, 1170, 820, 42);
+
+  roundRect(ctx, 140, 1380, 800, 160, 28);
+  ctx.fillStyle = "rgba(255,255,255,0.08)";
+  ctx.fill();
+  ctx.fillStyle = MAGENTA;
+  ctx.font = "800 36px 'DM Sans', sans-serif";
+  ctx.fillText("EDGE PITCHES", w / 2, 1440);
+  ctx.fillStyle = WHITE;
+  ctx.font = "800 56px 'Bebas Neue', Impact, sans-serif";
+  ctx.fillText(`${opts.edgeCorrect}/${opts.edgeTotal}  MATCHED ABS`, w / 2, 1510);
+
+  ctx.fillStyle = MAGENTA;
+  ctx.fillRect(0, h - 140, w, 140);
+  ctx.fillStyle = WHITE;
+  ctx.font = "700 30px 'DM Sans', sans-serif";
+  ctx.fillText("#MakeTheCall   ·   ABS Powered by T-Mobile", w / 2, h - 62);
+
+  return canvas;
+}
+
+export async function canvasToPngFile(canvas: HTMLCanvasElement, name: string) {
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, "image/png"),
+  );
+  if (!blob) throw new Error("Could not export graphic");
+  return new File([blob], name, { type: "image/png" });
+}
+
+export function downloadFile(file: File) {
+  const url = URL.createObjectURL(file);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = file.name;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+export async function shareResults(opts: {
+  correct: number;
+  total: number;
+  edgeCorrect: number;
+  edgeTotal: number;
+  calls: UserCall[];
+}) {
+  const rank = rankFor(opts.correct, opts.total);
+  const text = shareCopy(opts.correct, opts.total, rank);
+  const canvas = drawShareCard(opts);
+  const file = await canvasToPngFile(
+    canvas,
+    `make-the-call-${opts.correct}-of-${opts.total}.png`,
+  );
+
+  const payload = { files: [file], title: "Make The Call", text };
+  if (navigator.canShare?.({ files: [file] })) {
+    await navigator.share(payload);
+    return "shared";
+  }
+
+  downloadFile(file);
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+  window.open(intent, "_blank", "noopener,noreferrer");
+  return "downloaded";
+}
+
+export async function downloadResults(opts: {
+  correct: number;
+  total: number;
+  edgeCorrect: number;
+  edgeTotal: number;
+  calls: UserCall[];
+}) {
+  const canvas = drawShareCard(opts);
+  const file = await canvasToPngFile(
+    canvas,
+    `make-the-call-${opts.correct}-of-${opts.total}.png`,
+  );
+  downloadFile(file);
+}
+
+function wrapText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  lineHeight: number,
+) {
+  const words = text.split(" ");
+  let line = "";
+  let yy = y;
+  for (const word of words) {
+    const test = line ? `${line} ${word}` : word;
+    if (ctx.measureText(test).width > maxWidth) {
+      ctx.fillText(line, x, yy);
+      line = word;
+      yy += lineHeight;
+    } else {
+      line = test;
+    }
+  }
+  if (line) ctx.fillText(line, x, yy);
+}
+
+function roundRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
