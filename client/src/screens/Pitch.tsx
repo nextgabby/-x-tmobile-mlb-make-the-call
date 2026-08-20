@@ -9,10 +9,10 @@ import {
   type UserCall,
 } from "../game/pitches";
 
-const FIRST_CUE_MS = 2000;
-const WINDUP_MS = 250;
-const INCOMING_MS = 2150;
-const DECIDE_MS = 2350;
+const FIRST_CUE_MS = 1100;
+const WINDUP_MS = 150;
+const INCOMING_MS = 1500;
+const DECIDE_MS = 1750;
 
 export function PitchScreen({
   pitchIndex,

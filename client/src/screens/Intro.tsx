@@ -9,7 +9,7 @@ export function Intro({ onStart }: { onStart: () => void }) {
         <div className="flex flex-1 flex-col items-center justify-center px-5 text-center">
           <div className="rounded-3xl bg-black/50 px-5 py-6">
             <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-tm-magenta-hot">
-              MLB ABS × T-Mobile
+              MLB x T-Mobile ABS
             </p>
             <h1 className="title-outline mt-3 font-display text-[3.8rem] leading-[0.84]">
               Make
@@ -17,7 +17,7 @@ export function Intro({ onStart }: { onStart: () => void }) {
               The Call
             </h1>
             <p className="mx-auto mt-4 max-w-[17.5rem] text-sm font-semibold leading-snug text-white/90">
-              You’re in the slot. Five pitches. Ball or strike. Then ABS shows what it saw.
+              You’re in the slot this postseason. Five pitches. Ball or strike.
             </p>
           </div>
         </div>

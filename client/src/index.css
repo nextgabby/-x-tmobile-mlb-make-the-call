@@ -138,7 +138,7 @@ button {
 }
 
 .ball-incoming {
-  animation: pitchIn 2.15s cubic-bezier(0.22, 0.72, 0.18, 1) both;
+  animation: pitchIn 1.5s cubic-bezier(0.22, 0.72, 0.18, 1) both;
 }
 
 .ball-rest {
@@ -167,7 +167,7 @@ button {
 
 .timer-bar {
   transform-origin: left center;
-  animation: timerDrain 2.35s linear forwards;
+  animation: timerDrain 1.75s linear forwards;
 }
 
 @keyframes timerDrain {
