@@ -52,7 +52,7 @@ export function FieldView({
         }
       >
         {(phase === "incoming" || phase === "decide" || phase === "reveal") && (
-          <div className={ballClass}>
+          <div key={`${pitch.id}-${phase === "incoming" ? "in" : "rest"}`} className={ballClass}>
             <Baseball className="h-full w-full" />
           </div>
         )}

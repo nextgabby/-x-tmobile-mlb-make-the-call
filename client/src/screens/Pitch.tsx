@@ -9,8 +9,8 @@ import {
   type UserCall,
 } from "../game/pitches";
 
-const FIRST_CUE_MS = 1600;
-const WINDUP_MS = 200;
+const FIRST_CUE_MS = 2000;
+const WINDUP_MS = 250;
 const INCOMING_MS = 2150;
 const DECIDE_MS = 2350;
 
@@ -34,11 +34,10 @@ export function PitchScreen({
     setPhase("idle");
     setUserCall(null);
     userCallRef.current = null;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isFirst = pitch.index === 1;
-    const windup = reduce ? 0 : isFirst ? FIRST_CUE_MS : WINDUP_MS;
+    const windup = isFirst ? FIRST_CUE_MS : WINDUP_MS;
     const toIncoming = window.setTimeout(() => setPhase("incoming"), windup);
-    const toDecide = window.setTimeout(() => setPhase("decide"), windup + (reduce ? 80 : INCOMING_MS));
+    const toDecide = window.setTimeout(() => setPhase("decide"), windup + INCOMING_MS);
     return () => {
       window.clearTimeout(toIncoming);
       window.clearTimeout(toDecide);
@@ -96,7 +95,7 @@ export function PitchScreen({
 
       {phase === "idle" && pitch.index === 1 && (
         <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center px-6">
-          <p className="title-outline call-pop text-center font-display text-5xl leading-[0.9]">
+          <p className="title-outline text-center font-display text-5xl leading-[0.9]">
             Here it
             <br />
             comes
