@@ -2,7 +2,6 @@ import { rankFor, type UserCall } from "./pitches";
 
 const MAGENTA = "#E20074";
 const NAVY = "#0C2C56";
-const GREEN = "#005C5C";
 const WHITE = "#FFFFFF";
 const SILVER = "#C4CED4";
 
@@ -34,22 +33,11 @@ export function drawShareCard(opts: {
   ctx.textAlign = "center";
   ctx.fillText("MLB  ·  ABS", w / 2, 78);
   ctx.font = "800 92px 'Bebas Neue', Impact, sans-serif";
-  ctx.fillText("POWERED BY T-MOBILE", w / 2, 168);
-
-  ctx.fillStyle = GREEN;
-  ctx.beginPath();
-  ctx.arc(w / 2, 380, 72, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = MAGENTA;
-  ctx.lineWidth = 8;
-  ctx.stroke();
-  ctx.fillStyle = WHITE;
-  ctx.font = "800 72px 'Bebas Neue', Impact, sans-serif";
-  ctx.fillText("S", w / 2, 406);
+  ctx.fillText("PRESENTED BY T-MOBILE", w / 2, 168);
 
   ctx.fillStyle = SILVER;
   ctx.font = "700 28px 'DM Sans', sans-serif";
-  ctx.fillText("T-MOBILE PARK  ·  SEATTLE", w / 2, 500);
+  ctx.fillText(rank.kicker.toUpperCase(), w / 2, 430);
 
   ctx.fillStyle = WHITE;
   ctx.font = "800 120px 'Bebas Neue', Impact, sans-serif";
@@ -67,6 +55,10 @@ export function drawShareCard(opts: {
   ctx.font = "600 32px 'DM Sans', sans-serif";
   wrapText(ctx, rank.body, w / 2, 1170, 820, 42);
 
+  ctx.fillStyle = MAGENTA;
+  ctx.font = "800 28px 'DM Sans', sans-serif";
+  ctx.fillText("THAT'S THE POWER OF ABS", w / 2, 1320);
+
   roundRect(ctx, 140, 1380, 800, 160, 28);
   ctx.fillStyle = "rgba(255,255,255,0.08)";
   ctx.fill();
@@ -81,7 +73,7 @@ export function drawShareCard(opts: {
   ctx.fillRect(0, h - 140, w, 140);
   ctx.fillStyle = WHITE;
   ctx.font = "700 30px 'DM Sans', sans-serif";
-  ctx.fillText("#MakeTheCall   ·   ABS Powered by T-Mobile", w / 2, h - 62);
+  ctx.fillText("#MakeTheCall   ·   ABS Presented by T-Mobile", w / 2, h - 62);
 
   return canvas;
 }

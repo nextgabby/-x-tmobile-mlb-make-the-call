@@ -1,4 +1,4 @@
-/** Umpire POV of T-Mobile Park — painted so baked-in logos from stills never leak. */
+/** Umpire POV of a generic big-league park. */
 export function Stadium() {
   return (
     <svg
@@ -45,7 +45,7 @@ export function Stadium() {
         fontSize="16"
         letterSpacing="1.4"
       >
-        T-MOBILE PARK
+        HOME
       </text>
 
       <g className="lights">

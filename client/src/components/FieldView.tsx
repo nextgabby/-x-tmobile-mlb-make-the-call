@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import { Baseball } from "./Baseball";
-import { AbsBadge, CallPill, MarinersMark } from "./Brand";
+import { AbsBadge, CallPill } from "./Brand";
 import { Stadium } from "./Stadium";
 import type { Call, Pitch } from "../game/pitches";
 
@@ -59,9 +59,6 @@ export function FieldView({
         {phase === "reveal" && absCall && <span className="abs-dot" />}
       </div>
 
-      <div className="absolute left-3 top-[max(0.65rem,env(safe-area-inset-top))] z-20">
-        <MarinersMark className="h-10 w-10" />
-      </div>
       <div className="absolute right-3 top-[max(0.65rem,env(safe-area-inset-top))] z-20 flex flex-col items-end gap-2">
         <AbsBadge />
         {phase === "reveal" && absCall && (

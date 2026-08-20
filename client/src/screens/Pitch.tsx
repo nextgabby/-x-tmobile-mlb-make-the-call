@@ -9,6 +9,8 @@ import {
   type UserCall,
 } from "../game/pitches";
 
+const FIRST_CUE_MS = 1600;
+const WINDUP_MS = 200;
 const INCOMING_MS = 2150;
 const DECIDE_MS = 2350;
 
@@ -20,7 +22,7 @@ export function PitchScreen({
   onCalled: (call: UserCall) => void;
 }) {
   const pitch = PITCHES[pitchIndex];
-  const [phase, setPhase] = useState<Phase>("incoming");
+  const [phase, setPhase] = useState<Phase>("idle");
   const [userCall, setUserCall] = useState<UserCall | null>(null);
   const locked = useRef(false);
   const userCallRef = useRef<UserCall | null>(null);
@@ -29,12 +31,18 @@ export function PitchScreen({
 
   useEffect(() => {
     locked.current = false;
-    setPhase("incoming");
+    setPhase("idle");
     setUserCall(null);
     userCallRef.current = null;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const toDecide = window.setTimeout(() => setPhase("decide"), reduce ? 80 : INCOMING_MS);
-    return () => window.clearTimeout(toDecide);
+    const isFirst = pitch.index === 1;
+    const windup = reduce ? 0 : isFirst ? FIRST_CUE_MS : WINDUP_MS;
+    const toIncoming = window.setTimeout(() => setPhase("incoming"), windup);
+    const toDecide = window.setTimeout(() => setPhase("decide"), windup + (reduce ? 80 : INCOMING_MS));
+    return () => {
+      window.clearTimeout(toIncoming);
+      window.clearTimeout(toDecide);
+    };
   }, [pitch.id]);
 
   const commit = (call: UserCall) => {
@@ -85,6 +93,16 @@ export function PitchScreen({
         absCall={phase === "reveal" ? pitch.absCall : undefined}
         atmosphere={phase === "reveal" ? "close" : phase === "decide" ? "zone" : "incoming"}
       />
+
+      {phase === "idle" && pitch.index === 1 && (
+        <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center px-6">
+          <p className="title-outline call-pop text-center font-display text-5xl leading-[0.9]">
+            Here it
+            <br />
+            comes
+          </p>
+        </div>
+      )}
 
       <div className="relative z-20 mt-auto bg-gradient-to-t from-black from-40% via-black/80 to-transparent px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-10">
         {phase === "reveal" && userCall !== null && (

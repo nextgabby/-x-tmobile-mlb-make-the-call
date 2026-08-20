@@ -1,8 +1,6 @@
 # Make The Call · MLB ABS × T-Mobile
 
-X-native gamified microsite. Fans step into the umpire’s slot at T-Mobile Park, call five pitches ball or strike, then download a branded accuracy card.
-
-Seattle Mariners are the sample home club — T-Mobile Park is their stadium.
+X-native gamified microsite. Fans step into the umpire’s slot, call five pitches ball or strike, then download a branded accuracy card.
 
 ## Run locally
 
@@ -32,7 +30,7 @@ If the GitHub repo is `gw-demos`, set **Root Directory** to `x-tmobile-mlb-make-
 
 ## Flow
 
-1. **The Slot** — landing at T-Mobile Park, umpire POV.
+1. **The Slot** — landing, umpire POV.
 2. **Five pitches** — incoming heat, a 1.3s Ball/Strike window, then the ABS reveal.
 3. **Your card** — accuracy + edge-pitch breakdown, then download a 9:16 graphic.
 

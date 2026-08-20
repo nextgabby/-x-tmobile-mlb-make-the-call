@@ -158,11 +158,8 @@ button {
 @keyframes pitchIn {
   0% {
     left: 50%;
-    top: -130%;
-    transform: translate(-50%, -50%) scale(0.12);
-    opacity: 0.75;
-  }
-  70% {
+    top: -8%;
+    transform: translate(-50%, -50%) scale(0.32);
     opacity: 1;
   }
   100% {

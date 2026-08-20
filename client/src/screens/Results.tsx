@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AbsBadge, MarinersMark } from "../components/Brand";
+import { AbsBadge } from "../components/Brand";
 import {
   PITCHES,
   rankFor,
@@ -37,21 +37,23 @@ export function Results({
 
   return (
     <div className="screen-in relative flex h-full flex-col overflow-hidden bg-sea-navy">
-      <div className="absolute inset-x-0 top-0 h-28 bg-tm-magenta" />
-      <div className="relative z-10 flex items-start justify-between px-4 pt-[max(0.75rem,env(safe-area-inset-top))]">
-        <MarinersMark className="h-11 w-11" />
-        <AbsBadge />
+      <div className="absolute inset-x-0 top-0 h-[4.25rem] bg-tm-magenta" />
+      <div className="relative z-10 flex justify-end px-4 pt-[max(0.5rem,env(safe-area-inset-top))]">
+        <AbsBadge className="h-12 w-12" />
       </div>
 
-      <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-3 pt-5 text-center">
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-3 pt-8 text-center">
         <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-sea-silver">
-          {rank.kicker} · T-Mobile Park
+          {rank.kicker}
         </p>
         <p className="win-burst mt-1 font-display text-[5.5rem] leading-none text-white">
           {score.correct}/{score.total}
         </p>
         <h2 className="mt-1 font-display text-4xl leading-none text-tm-magenta-hot">{rank.title}</h2>
         <p className="mx-auto mt-3 max-w-xs text-sm font-semibold text-white/80">{rank.body}</p>
+        <p className="mt-3 text-[11px] font-extrabold uppercase tracking-[0.18em] text-sea-silver">
+          That’s the power of ABS
+        </p>
 
         <div className="mt-4 w-full rounded-2xl bg-white/10 px-4 py-3">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-tm-magenta-hot">

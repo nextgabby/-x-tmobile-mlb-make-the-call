@@ -20,8 +20,20 @@ export type Pitch = {
 
 export const PITCHES: Pitch[] = [
   {
-    id: "middle-heat",
+    id: "slider-away",
     index: 1,
+    pitcher: "Castillo",
+    pitch: "Slider",
+    mph: 84,
+    kind: "warmup",
+    blurb: "Bounces off the plate. Don’t chase.",
+    absCall: "ball",
+    loc: { x: 1.42, y: 0.68 },
+    countBefore: { balls: 0, strikes: 0 },
+  },
+  {
+    id: "middle-heat",
+    index: 2,
     pitcher: "Castillo",
     pitch: "Four-seam",
     mph: 96,
@@ -29,19 +41,7 @@ export const PITCHES: Pitch[] = [
     blurb: "Middle-middle. Trust what you see.",
     absCall: "strike",
     loc: { x: 0.5, y: 0.48 },
-    countBefore: { balls: 0, strikes: 0 },
-  },
-  {
-    id: "slider-away",
-    index: 2,
-    pitcher: "Castillo",
-    pitch: "Slider",
-    mph: 84,
-    kind: "warmup",
-    blurb: "Bounces off the plate. Don’t chase.",
-    absCall: "ball",
-    loc: { x: 1.42, y: 0.62 },
-    countBefore: { balls: 0, strikes: 1 },
+    countBefore: { balls: 1, strikes: 0 },
   },
   {
     id: "nick-black",
@@ -98,40 +98,46 @@ export type Rank = {
   body: string;
 };
 
-export function rankFor(correct: number, total: number): Rank {
-  const pct = correct / total;
-  if (pct === 1) {
+export function rankFor(correct: number, _total: number): Rank {
+  if (correct >= 5) {
     return {
-      title: "ABS Certified",
-      kicker: "Perfect set",
-      body: "You saw what the machine saw. That’s a rare look from the slot.",
+      title: "90–100%",
+      kicker: "Very Accurate",
+      body: "You ABSolutely crushed those calls.",
     };
   }
-  if (correct >= 4) {
+  if (correct === 4) {
     return {
-      title: "In the Slot",
-      kicker: "Umpire eyes",
-      body: "You belong back there. ABS still had the last word on the edges.",
+      title: "70–89%",
+      kicker: "Accurate",
+      body: "Just like 5G, you had a strong connection with the plate.",
     };
   }
-  if (correct >= 3) {
+  if (correct === 3) {
     return {
-      title: "Challenge Pending",
-      kicker: "Close, not locked",
-      body: "The heart of the plate was yours. The corners belong to ABS.",
+      title: "50–69%",
+      kicker: "Moderately Accurate",
+      body: "Even with a strong connection, you made some tough calls.",
     };
   }
-  if (correct >= 1) {
+  if (correct === 2) {
     return {
-      title: "Human Eye",
-      kicker: "That’s why ABS exists",
-      body: "From the slot, the edges lie. The system doesn’t blink.",
+      title: "30–49%",
+      kicker: "Somewhat Accurate",
+      body: "You struggled to find coverage of the plate.",
+    };
+  }
+  if (correct === 1) {
+    return {
+      title: "1–29%",
+      kicker: "Not Very Accurate",
+      body: "Some calls can be...challenging.",
     };
   }
   return {
-    title: "Needs Replay",
-    kicker: "Rough inning",
-    body: "Five pitches. Five different looks. ABS was undefeated.",
+    title: "Rough Inning",
+    kicker: "Tough Calls",
+    body: "You'll get 'em next time.",
   };
 }
 
