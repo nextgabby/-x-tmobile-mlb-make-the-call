@@ -14,6 +14,14 @@ const WINDUP_MS = 150;
 const INCOMING_MS = 1500;
 const DECIDE_MS = 1750;
 
+//FIRST_CUE_MS — how long Here it comes stays up before pitch 1
+//WINDUP_MS — tiny pause before pitches 2–5
+//INCOMING_MS — how long the ball is in flight
+//DECIDE_MS — Ball/Strike window (the timer)
+//2. The matching animations — x-tmobile-mlb-make-the-call/client/src/index.css:
+//pitchIn duration must equal INCOMING_MS (now 1.5s)
+//timerDrain duration must equal DECIDE_MS (now 1.75s)
+
 export function PitchScreen({
   pitchIndex,
   onCalled,

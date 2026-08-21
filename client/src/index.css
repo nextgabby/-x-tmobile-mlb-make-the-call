@@ -153,9 +153,15 @@ button {
 @keyframes pitchIn {
   0% {
     transform: translate(-50%, -50%) translate3d(0, -180px, 0) scale(0.36);
+    opacity: 1;
+  }
+  72% {
+    transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(1);
+    opacity: 1;
   }
   100% {
-    transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(1);
+    transform: translate(-50%, -50%) translate3d(0, 36px, 0) scale(1.08);
+    opacity: 0;
   }
 }
 

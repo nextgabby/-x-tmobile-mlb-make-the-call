@@ -24,13 +24,6 @@ export function FieldView({
         ? "/field/zone.png"
         : "/field/incoming.png";
 
-  const ballClass =
-    phase === "incoming"
-      ? "ball ball-incoming"
-      : phase === "reveal"
-        ? "ball ball-reveal"
-        : "ball ball-rest";
-
   return (
     <div className={`absolute inset-0 overflow-hidden ${phase === "reveal" ? "field-zoom" : ""}`}>
       <img
@@ -51,8 +44,13 @@ export function FieldView({
           } as CSSProperties
         }
       >
-        {(phase === "incoming" || phase === "decide" || phase === "reveal") && (
-          <div key={`${pitch.id}-${phase === "incoming" ? "in" : "rest"}`} className={ballClass}>
+        {phase === "incoming" && (
+          <div key={`${pitch.id}-in`} className="ball ball-incoming">
+            <Baseball className="h-full w-full" />
+          </div>
+        )}
+        {phase === "reveal" && (
+          <div key={`${pitch.id}-reveal`} className="ball ball-reveal">
             <Baseball className="h-full w-full" />
           </div>
         )}
